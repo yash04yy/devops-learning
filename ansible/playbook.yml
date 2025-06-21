@@ -1,0 +1,35 @@
+- name: Setup Docker and run the Flask app
+  hosts: web
+  become: true  # Run tasks with sudo
+  tasks:
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Pull latest Docker image from Docker Hub
+      docker_image:
+        name: yash04yy/devops-project
+        tag: latest
+        source: pull
+
+    - name: Run the Flask container
+      docker_container:
+        name: flask-app
+        image: yash04yy/devops-project:latest
+        state: started
+        ports:
+          - "80:5000"

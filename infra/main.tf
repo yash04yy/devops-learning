@@ -36,7 +36,7 @@ resource "aws_security_group" "dev_sg" {
 }
 
 resource "aws_instance" "dev_instance" {
-  ami           = "ami-0c02fb55956c7d316"  # Ubuntu 22.04 in us-east-1
+  ami           = "ami-053b0d53c279acc90"  # Ubuntu 22.04 in us-east-1
   instance_type = "t2.micro"
   key_name      = aws_key_pair.my_key.key_name
 
